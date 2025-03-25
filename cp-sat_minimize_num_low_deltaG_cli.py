@@ -74,6 +74,7 @@ def generate_random_candidates(num_blocks: int, candidates_per_block: int) -> li
             for _ in range(candidates_per_block)
         ]
         for _ in range(num_blocks)
+    
     ]
 
 DEFAULT_THRESHOLD = -9000.0
@@ -265,6 +266,10 @@ def load_blocks(json_path: str) -> dict:
         print(f"Error decoding JSON from {json_path}: {e}")
         sys.exit(1)
 
+
+def reverse_complement(dna):
+    return ''.join(({'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'})[base] for base in reversed(dna))
+
 def calculate_deltaG_matrix(primers: List[str]) -> np.ndarray:
     """
     Calculate a symmetric 2D DeltaG matrix for a list of primers.
@@ -297,7 +302,7 @@ def calculate_deltaG_matrix(primers: List[str]) -> np.ndarray:
 
     for i, j in zip(*indices):
         try:
-            result = primer3.calc_heterodimer(primers[i], primers[j])
+            result = primer3.calc_heterodimer(primers[i], reverse_complement(primers[j]))
             deltaG_value = result.dg
         except Exception as e:
             print(f"Error calculating DeltaG for primers {i} and {j}: {e}")

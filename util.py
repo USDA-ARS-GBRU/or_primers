@@ -1,4 +1,4 @@
-
+import random
 import numpy as np
 import primer3
 
@@ -19,7 +19,7 @@ def calculate_deltaG_matrix(primers):
     for i in range(num_primers):
         for j in range(i, num_primers):
             # Run the DeltaG calculation using primer3-py calc_heterodimer.
-            result = primer3.calcHeterodimer(primers[i], primers[j])
+            result = primer3.calc_heterodimer(primers[i], primers[j])
             deltaG_value = result.dg  # Assuming the function returns an object with 'dg' for DeltaG.
             
             # Update both (i, j) and (j, i) to ensure the matrix is symmetric.
@@ -28,7 +28,7 @@ def calculate_deltaG_matrix(primers):
 
     return deltaG_matrix
 
-import random
+
 
 def generate_random_dna_strings(n, l):
     """
@@ -55,17 +55,20 @@ def generate_random_dna_strings(n, l):
         print(dna)
 
 
+def reverse_complement(dna):
+    return ''.join(({'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'})[base] for base in reversed(dna))
+
 # Example usage:
-    primers = [
-        "TAGCATCACCAGACGCACAC",
-        "CACCACTAGATAAGCACGGA",
-        "AATTACTCGGGAAAGTTAGC",
-        "TGTACCAGGCCTAGCCAGGC",
-        "CAACTTGCGAGTGACCCCGC",
-        "TGCTCCACTCTAATTCTTTG",
-        "AGACGAACAGGTGAATTAGA",
-        "TTCTTCGTTACTGAGACGTC"
-    ]
-    deltaG_matrix = calculate_deltaG_matrix(primers)
-    print("DeltaG Matrix:")
-    print(deltaG_matrix)
+primers = [
+    "TAGCATCACCAGACGCACAC",
+    "CACCACTAGATAAGCACGGA",
+    "AATTACTCGGGAAAGTTAGC",
+    "TGTACCAGGCCTAGCCAGGC",
+    "GTGTGCGTCTGGTGATGCTA",
+    "TGCTCCACTCTAATTCTTTG",
+    "AGACGAACAGGTGAATTAGA",
+    "TTCTTCGTTACTGAGACGTC"
+]
+deltaG_matrix = calculate_deltaG_matrix(primers)
+print("DeltaG Matrix:")
+print(deltaG_matrix)

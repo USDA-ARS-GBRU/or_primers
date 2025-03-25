@@ -17,7 +17,7 @@ selected primer from a different block.
 It can run in two modes:
   1. Generation mode: Provide --kmers, --num_blocks, and --candidates_per_block.
      A  deltaG matrix and candidate blocks will be generated using the first 
-     (num_blocks * candidates_per_block) kmer fasta records. Kmers should be primer length ~20nt. 
+     (num_blocks * candidates_per_block) kmer fasta records. Kmers should be primer length ~20nt. reverse sequence of each pair is RC'ed 
      I used bbtools kmercountexact.sh to generate my kmer fasta. 
   2. File input mode: Provide --deltaG_csv and --block_json to load the deltaG matrix and candidate
      block definitions from files.
@@ -32,6 +32,7 @@ Usage examples:
 
   File input mode:
     `cp-sat_minimize_num_low_deltaG_cli.py --deltaG_csv deltaG_matrix.csv --block_json block_list.json`
+
 
 # Data 
     * `fmv_blocks_from_Ao`: 
