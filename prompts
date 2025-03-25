@@ -1,0 +1,64 @@
+Using ORtools for python, I would like to select a set of primers subject to several constraints that maximize the pairwise deltaG of the selected pairs.
+Here is the problem.
+I have n blocks B, each block has i primer pairs P. Each primer pair P has two primers. 
+I have a deltaG_matrix containing the pairwise deltaGs as floats for every primer in all blocks and pair sets vs all other primers.
+I must select exactly one primer pair from each block. For the final set of all selected primers, no deltaG can be below -9.0.
+my objective is to to maximize the average deltaG of the selected primers. 
+
+I anticipate having 200 block and 5 candidate primer pairs per block. given the size consider a two stage approach that removes primer pairs with primers that have many deltaGs
+ below -9.0  
+
+
+ NEw approach:
+
+Using ORtools for python, I would like to select a set of primers subject to several constraints that maximize the pairwise deltaG of the selected pairs.
+Here is the problem.
+I have n blocks B, each block has i primer pairs P. Each primer pair P has two primers. 
+I have a deltaG_matrix containing the pairwise deltaGs as floats for every primer in all blocks and pair sets vs all other primers.
+I must select exactly one primer pair from each block. 
+
+For the final set of all selected primers my objective is to to minimize the number of pairwise primer scores that have a deltaG of less than -9.0 
+
+I anticipate having 200 block and 5 candidate primer pairs per block. given the size consider a two stage approach that removes candidate primer pairs with primers that have a lot of deltaGs below -9.0  
+
+Example input data for the model cna be generated like this:
+
+
+def generate_random_candidates(num_blocks, candidates_per_block, primer_pool_size):
+    """
+    Generate random candidate primer pairs for each block.
+    
+    Parameters:
+      num_blocks: Number of blocks.
+      candidates_per_block: Number of candidate pairs per block.
+      primer_pool_size: Total number of available primers (primes will be taken from range(primer_pool_size)).
+    
+    Returns:
+      A list of blocks with candidate primer pairs.
+    """
+    blocks = []
+    for _ in range(num_blocks):
+        block_candidates = []
+        for _ in range(candidates_per_block):
+            # Randomly select two distinct primers.
+            pair = tuple(np.random.choice(primer_pool_size, size=2, replace=False))
+            block_candidates.append(pair)
+        blocks.append(block_candidates)
+    return blocks
+
+# Set random seed for reproducibility (optional)
+np.random.seed(42)
+random.seed(42)
+
+# Define parameters for random data generation.
+primer_pool_size = 50
+num_blocks = 10         # e.g., 10 blocks
+candidates_per_block = 5
+
+# Generate deltaG_matrix with np.random.normal(mean, std, shape).
+deltaG_matrix = np.random.normal(-1, 2, (primer_pool_size, primer_pool_size))
+# Optionally, set self deltaG (diagonal) to 0.
+np.fill_diagonal(deltaG_matrix, 0)
+
+# Generate random candidate primer pairs.
+blocks = generate_random_candidates(num_blocks, candidates_per_block, primer_pool_size)
