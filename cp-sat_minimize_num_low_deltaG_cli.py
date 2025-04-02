@@ -385,7 +385,7 @@ def parse_arguments():
     parser.add_argument("--candidates_per_block", type=int, help="Candidates per block for generation.")
     # For file mode, block JSON must be provided.
     parser.add_argument("--block_json", type=str, help="Path to a JSON file with block candidate definitions.")
-    parser.add_argument("--deltag_cutoff", type=float, default=-9000.0, help="The cutoff G value in cal/mol")
+    parser.add_argument("--deltag_cutoff", type=float, default= -9000.0, help="The cutoff G value in cal/mol")
 
     args = parser.parse_args()
 
